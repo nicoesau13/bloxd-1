@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DoodleCube Embed</title>
+  <style>
+    :root { color-scheme: light dark; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      background: Canvas;
+      color: CanvasText;
+    }
+    header, footer {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid color-mix(in oklab, CanvasText 15%, Canvas 85%);
+    }
+    footer { border-top: 1px solid color-mix(in oklab, CanvasText 15%, Canvas 85%); border-bottom: 0; }
+    .frame-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: color-mix(in oklab, Canvas 90%, CanvasText 10%);
+    }
+    iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .fallback {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 1rem;
+    }
+    .hidden { display: none; }
+    a { color: LinkText; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>DoodleCube Embed</strong>
+    <span style="opacity:.7"> — running on GitHub Pages</span>
+  </header>
+
+  <div class="frame-wrap">
+    <!-- If doodlecube.io blocks embedding (X-Frame-Options/CSP), the fallback below will show -->
+    <iframe
+      id="doodleframe"
+      src="https://doodlecube.io/"
+      loading="eager"
+      referrerpolicy="no-referrer"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+    ></iframe>
+
+    <div id="fallback" class="fallback hidden">
+      <div>
+        <h2>Open DoodleCube directly</h2>
+        <p>Embedding may be blocked by the site. Use the link below:</p>
+        <p><a href="https://doodlecube.io/" rel="noopener" target="_blank">Go to doodlecube.io</a></p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <small>If the embed doesn’t load, the site may disallow iframes. The direct link will always work.</small>
+  </footer>
+
+  <script>
+    // Show a friendly fallback if the iframe fails to load within a reasonable time.
+    const iframe = document.getElementById('doodleframe');
+    const fallback = document.getElementById('fallback');
+
+    let loaded = false;
+    iframe.addEventListener('load', () => { loaded = true; });
+
+    // If not loaded within 3 seconds, assume blocked and show fallback message.
+    setTimeout(() => {
+      if (!loaded) fallback.classList.remove('hidden');
+    }, 3000);
+  </script>
+</body>
+</html>
